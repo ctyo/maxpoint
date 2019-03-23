@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>leaflet</title>
+<meta charset="utf-8">
+<style>
+    #map {
+        width : 800px;
+        height: 500px;
+    }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<script>
+var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+var addingPointLayer = new  L.tileLayer(
+	'http://localhost:20008/tile/point/{z}/{x}/{y}.png',
+	{
+		opacity:0.8
+	});
+var map = L.map('map' , {
+    center : [37.6811673, 139.7670516],
+    zoom :  5,
+    layers : [baseLayer, addingPointLayer]
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>mapboxgl</title>
+<meta charset="utf-8">
+<style>
+    #map {
+        width : 800px;
+        height: 500px;
+    }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+<script>
+mapboxgl.accessToken = '{key}';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v9',
+    center: [139.7670516, 37.6811673],
+    zoom: 4
+});
+
+fetch ('./pin.csv').then(function(response) {
+    return response.ok ? response.text() : Promise.reject(response.status);
+}).then(function(csv) {
+    csv.split("\n").forEach (function(line) {
+        var pos = line.split(',');
+        if (pos.length!==2) return;
+        var marker = new mapboxgl.Marker()
+            .setLngLat([pos[1], pos[0]])
+            .addTo(map);
+
+    });
+});
+</script>
+</body>
+</html>

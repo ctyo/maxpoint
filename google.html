@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>google</title>
+<meta charset="utf-8">
+<style>
+    #map {
+        width : 800px;
+        height: 500px;
+    }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script src="https://maps.google.com/maps/api/js?&libraries=geometry&v=3&key={key}&sensor=false" type="text/javascript" charset="UTF-8"></script>
+<script>
+var map = new google.maps.Map(document.getElementById("map"), {
+  zoom: 5,
+  center: new google.maps.LatLng(37.6811673, 139.7670516),
+  mapTypeId: 'roadmap'
+});
+
+fetch ('./pin.csv').then(function(response) {
+    return response.ok ? response.text() : Promise.reject(response.status);
+}).then(function(csv) {
+    csv.split("\n").forEach (function(line) {
+        var pos = line.split(',');
+        if (pos.length!==2) return;
+        new google.maps.Marker({
+          position: new google.maps.LatLng(pos[0], pos[1]),
+          map: map
+        });
+    });
+});
+</script>
+</body>
+</html>
